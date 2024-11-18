@@ -49,7 +49,7 @@ export default function SideBar({ setSidebar }: any) {
         });
     };
     fetchPrice();
-    const interval = setInterval(fetchPrice, 6000); 
+    const interval = setInterval(fetchPrice, 60000); 
     return () => clearInterval(interval);
   }, []);
 
@@ -110,8 +110,9 @@ export default function SideBar({ setSidebar }: any) {
           </div>
         ) : (
           <div>
-            <div>Wallet is not connected</div>
-            <div>
+            <div className="mt-6"><p className="text-[#FFFFFF] text-[18px] font-[600]">Wallet is not connected</p></div>
+            <div className="mt-6">
+              <div className="mt-4"><h2 className="text-[#FFFFFF] text-[18px] font-[600]">Solana market rate</h2></div>
             <div className="mt-4 table-wrp block max-h-[400px]  overflow-y-auto border rounded-xl overflow-hidden">
       <table className="table-fixed w-full rounded-[8px]">
         <thead className="sticky top-0 bg-[#FCFCFD]">
@@ -156,7 +157,7 @@ export default function SideBar({ setSidebar }: any) {
           </div>
         )}
 
-        <div className="flex justify-end gap-2 mt-4">
+        <div className="flex justify-end gap-2 mt-6 pt-6">
           <button
             onClick={() => {
               setSidebar(false);

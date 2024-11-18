@@ -14,7 +14,7 @@ const WalletMultiButton = dynamic(
 export default function Navbar() {
   const [isSetSideBar,setIsSetSideBar]=React.useState(false);
   return (
-    <main className="lg:max-w-[1400px] 2xl:max-w-[1560px] md:max-w-[1200px] sm:max-w-[1020px] mx-auto px-4 2xl:px-12 lg:px-8 pb-8 flex justify-center mt-2">
+    <main className="max-w-1400px lg:max-w-[1400px] 2xl:max-w-[1560px] md:max-w-[1200px] sm:max-w-[1020px] mx-auto px-4 2xl:px-12 lg:px-8 pb-8 flex justify-center mt-2">
       <div className="w-[1150px] flex justify-between h-[60px] p-4 rounded-[12px] gap-6">
         <div className="w-[80px] h-[40px] hover:shadow hover:border-b-2 hover:border-[#bfa7ff] cursor-pointer flex item-center justify-center pt-2 rounded-[7px]">
           <p className="text-[18px] text-[#ffffff] font-[400]">Home</p>

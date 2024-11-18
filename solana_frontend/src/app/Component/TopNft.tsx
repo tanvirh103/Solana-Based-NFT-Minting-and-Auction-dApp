@@ -14,7 +14,7 @@ const nftData = [
 
 export default function TopNFTs() {
   return (
-    <div className="lg:max-w-[1400px] 2xl:max-w-[1560px] md:max-w-[1200px] sm:max-w-[1020px] mx-auto px-2 2xl:px-12 lg:px-8 pb-8 mt-12">
+    <div className="max-w-1400px lg:max-w-[1400px] 2xl:max-w-[1560px] md:max-w-[1200px] sm:max-w-[1020px] mx-auto px-2 2xl:px-12 lg:px-8 pb-8 mt-12">
       <h2 className="text-[#ffffff] text-[32px] font-[700] mb-6">Top NFTs Promotions</h2>
       <div className="flex flex-wrap justify-center gap-6">
         {nftData.map((nft) => (
