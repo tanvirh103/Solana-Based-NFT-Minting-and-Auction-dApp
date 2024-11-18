@@ -1,4 +1,3 @@
-
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { LAMPORTS_PER_SOL } from "@solana/web3.js";
 import React, { useRef, useEffect, useState } from "react";
@@ -39,17 +38,19 @@ export default function SideBar({ setSidebar }: any) {
   useEffect(() => {
     const fetchPrice = () => {
       axios
-        .get("https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=bdt")
+        .get(
+          "https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=bdt"
+        )
         .then((response) => {
           const bdtValue = response.data.solana.bdt;
-          setValue(bdtValue); 
+          setValue(bdtValue);
         })
         .catch((error) => {
           console.log("Error fetching data:", error);
         });
     };
     fetchPrice();
-    const interval = setInterval(fetchPrice, 60000); 
+    const interval = setInterval(fetchPrice, 6000);
     return () => clearInterval(interval);
   }, []);
 
@@ -92,7 +93,7 @@ export default function SideBar({ setSidebar }: any) {
                 Public Key: {publicKey.toString()}
               </p>
               <p className="text-[#FFFFFF] text-[16px] font-[500]">
-                Wallet Balance: {balance}
+                Wallet Balance: {balance} SOL
               </p>
             </div>
             <div className="pt-2">
@@ -110,49 +111,57 @@ export default function SideBar({ setSidebar }: any) {
           </div>
         ) : (
           <div>
-            <div className="mt-6"><p className="text-[#FFFFFF] text-[18px] font-[600]">Wallet is not connected</p></div>
             <div className="mt-6">
-              <div className="mt-4"><h2 className="text-[#FFFFFF] text-[18px] font-[600]">Solana market rate</h2></div>
-            <div className="mt-4 table-wrp block max-h-[400px]  overflow-y-auto border rounded-xl overflow-hidden">
-      <table className="table-fixed w-full rounded-[8px]">
-        <thead className="sticky top-0 bg-[#FCFCFD]">
-          <tr className="text-[#667085] text-[14px] font-[500] h-[44px]">
-            <td className="border-b border-[#EAECF0] p-2">
-              <div className="flex items-center gap-1">Amount (SOL)</div>
-            </td>
-            <td className="border-b border-[#EAECF0] p-2">
-              <div className="flex items-center gap-1">Amount (BDT)</div>
-            </td>
-          </tr>
-        </thead>
-        <tbody className="text-[#6F6F6F] bg-[#FFFFFF] text-[16px] font-[500]">
-            <tr className="h-[40px] ">
-              <td className="border-b border-[#EAECF0] p-4">
-                1
-              </td>
-              <td className="border-b border-[#EAECF0] p-4">{value}</td>
-            </tr>
-            <tr className="h-[40px]">
-              <td className="border-b border-[#EAECF0] p-4">
-                5
-              </td>
-              <td className="border-b border-[#EAECF0] p-4">{value*5}</td>
-            </tr>
-            <tr className="h-[40px]">
-              <td className="border-b border-[#EAECF0] p-4">
-                10
-              </td>
-              <td className="border-b border-[#EAECF0] p-4">{value*10}</td>
-            </tr>
-            <tr className="h-[40px]">
-              <td className="border-b border-[#EAECF0] p-4">
-                50
-              </td>
-              <td className="border-b border-[#EAECF0] p-4">{value*50}</td>
-            </tr>
-        </tbody>
-      </table>
-    </div>
+              <p className="text-[#FFFFFF] text-[18px] font-[600]">
+                Wallet is not connected
+              </p>
+            </div>
+            <div className="mt-6">
+              <div className="mt-4">
+                <h2 className="text-[#FFFFFF] text-[18px] font-[600]">
+                  Solana market rate
+                </h2>
+              </div>
+              <div className="mt-4 max-h-[400px] overflow-y-auto rounded-xl shadow-lg bg-black border border-gray-800">
+                <table className="table-fixed w-full text-left">
+                  <thead className="sticky top-0 bg-gray-900 text-[#ffffff] font-[500] text-[14px] font-medium uppercase">
+                    <tr>
+                      <th className="border-b border-gray-700 px-4 py-3">
+                        Amount (SOL)
+                      </th>
+                      <th className="border-b border-gray-700 px-4 py-3">
+                        Amount (BDT)
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="text-[14px] text-[#ffffff] font-[400]">
+                    <tr className="h-[48px] bg-gray-800">
+                      <td className="border-b border-gray-700 px-4 py-3">1</td>
+                      <td className="border-b border-gray-700 px-4 py-3">
+                        {value}
+                      </td>
+                    </tr>
+                    <tr className="h-[48px] bg-gray-700">
+                      <td className="border-b border-gray-700 px-4 py-3">5</td>
+                      <td className="border-b border-gray-700 px-4 py-3">
+                        {value * 5}
+                      </td>
+                    </tr>
+                    <tr className="h-[48px] bg-gray-800">
+                      <td className="border-b border-gray-700 px-4 py-3">10</td>
+                      <td className="border-b border-gray-700 px-4 py-3">
+                        {value * 10}
+                      </td>
+                    </tr>
+                    <tr className="h-[48px] bg-gray-700">
+                      <td className="border-b border-gray-700 px-4 py-3">50</td>
+                      <td className="border-b border-gray-700 px-4 py-3">
+                        {value * 50}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         )}

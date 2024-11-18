@@ -3,6 +3,7 @@
 import React from "react";
 import SideBar from "../Component/SideBar";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function NFTUploadPage() {
   const [name, setName] = React.useState("");
@@ -108,14 +109,16 @@ export default function NFTUploadPage() {
           <div className="mb-4">
             <label
               htmlFor="file-upload"
-              className="block w-[90%] h-48 border-2 border-dashed border-gray-300 rounded-lg flex flex-col justify-center items-center cursor-pointer hover:border-[#867dbf] transition duration-300"
+              className="block w-[90%] h-48 border-2 border-dashed border-gray-300 rounded-[12px] flex flex-col justify-center items-center cursor-pointer hover:border-[#867dbf] transition duration-300"
             >
               {preview ? (
-                <img
-                  src={preview}
-                  alt="Preview"
-                  className="object-contain h-full w-full rounded-lg"
-                />
+                <Image
+                   src={preview}
+                   alt="Creator Avatar"
+                   width={380}
+                   height={280}
+                   className="object-contain h-full w-full rounded-lg"
+                 />
               ) : (
                 <div className="text-center">
                   <div className="flex justify-center mb-4">
@@ -184,14 +187,14 @@ export default function NFTUploadPage() {
               />
             </div>
           </div>
-          <div className="my-4">
+          <div>
             <label className="block mb-2">Blockchain</label>
             <div className="flex space-x-4">
               {["Bitcoin", "Ethereum", "Cardano", "Solana"].map((chain) => (
                 <button
                   key={chain}
                   onClick={() => setBlockchain(chain)}
-                  className={`p-2 rounded ${
+                  className={`p-2 rounded hover:bg-[#ab9ff2] ${
                     blockchain === chain ? "bg-[#ab9ff2]" : "bg-black-900"
                   }`}
                 >
@@ -200,7 +203,7 @@ export default function NFTUploadPage() {
               ))}
             </div>
           </div>
-          <div className="mb-6">
+          <div>
             <label className="block mb-2">Attributes</label>
             <div className="flex space-x-4">
               <input
@@ -219,7 +222,7 @@ export default function NFTUploadPage() {
               />
             </div>
           </div>
-          <div className="w-[91%] mt-6 flex justify-end space-x-4 mt-4">
+          <div className="w-[91%] flex justify-end space-x-4">
             <Link href="/">
               <button className="w-[100px] h-[40px] bg-[#ab9ff2] rounded-[8px] px-2 py-2 hover:bg-[#867dbf]">
                 Cancel
