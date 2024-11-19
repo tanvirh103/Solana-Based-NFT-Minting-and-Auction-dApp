@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import AppWalletProvider from "./Component/SolanaProvider";
+import Navbar from "./Component/Navbar";
+import Footer from "./Component/Footer";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -29,7 +31,11 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-       <AppWalletProvider>{children}</AppWalletProvider>
+       <AppWalletProvider>
+       <Navbar/>
+        {children}
+        <Footer/>
+        </AppWalletProvider>
       </body>
     </html>
   );

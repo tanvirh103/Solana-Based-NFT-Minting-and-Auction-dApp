@@ -71,13 +71,13 @@ export default function TransactionHistory({ address }: props) {
               <td className="border-b border-gray-700 px-4 py-3">
                 {item.err ? (
                   <span
-                    className="inline-block bg-red-500 text-white text-xs px-2 py-1 rounded-full"
+                    className="inline-block bg-red-500 text-[#ffffff] text-[12px] px-2 py-1 rounded-full"
                     title={JSON.stringify(item.err)}
                   >
                     Failed
                   </span>
                 ) : (
-                  <span className="inline-block  bg-[#ab9ff2] text-white text-xs px-2 py-1 rounded-full">
+                  <span className="inline-block  bg-[#ab9ff2] text-[#ffffff] text-[12px] px-2 py-1 rounded-full">
                     Success
                   </span>
                 )}
@@ -88,7 +88,7 @@ export default function TransactionHistory({ address }: props) {
             <tr className="bg-gray-600">
               <td colSpan={4} className="text-center border-b border-gray-700">
                 <button
-                  className="text-[]  text-[#ffffff] font-[400] hover:text-gray-200 py-2 px-4 bg-gray-900 hover:bg-[#867dbf] rounded-[7px]"
+                  className="text-[14px]  text-[#ffffff] font-[400] hover:text-gray-200 py-2 px-4 bg-gray-900 hover:bg-[#867dbf] rounded-[7px]"
                   onClick={() => setShowAll(!showAll)}
                 >
                   {showAll ? "Show Less" : "Show All"}

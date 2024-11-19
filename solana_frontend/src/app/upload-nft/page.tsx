@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import SideBar from "../Component/SideBar";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -47,48 +46,11 @@ export default function NFTUploadPage() {
   };
 
   return (
-    <div className="max-w-1400px lg:max-w-[1400px] 2xl:max-w-[1560px] md:max-w-[1200px] sm:max-w-[1020px] mx-auto px-4 2xl:px-12 lg:px-8 pb-8 flex justify-center items-center">
-      <div className="w-full p-6">
-        <div className="flex justify-between">
-          <div className="flex justify-start">
-            <h2 className="text-[45px] font-[700] mb-4">Create Your NFT</h2>
-          </div>
-          <div
-            onClick={() => {
-              setIsSetSideBar(true);
-            }}
-            className="flex justify-end cursor-pointer"
-          >
-            <svg
-              className=""
-              width="30"
-              height="30"
-              viewBox="0 0 30 30"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M3.75 8.75H18.75"
-                stroke="#FFFFFF"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-              ></path>
-              <path
-                d="M3.75 15H26.25"
-                stroke="#FFFFFF"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-              ></path>
-              <path
-                d="M3.75 21.25H15"
-                stroke="#FFFFFF"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-              ></path>
-            </svg>
-          </div>
-        </div>
-        <div className="w-[1460px] space-y-6">
+    <div className="max-w-1560px lg:max-w-[1400px] 2xl:max-w-[1560px] md:max-w-[1200px] sm:max-w-[1020px] mx-auto px-4 2xl:px-12 lg:px-8">
+      <div className="flex justify-start">
+            <h2 className="text-[45px] lg:text-[45px] md:text-[40px] sm:text-[35px] font-[700] mb-4">Create Your NFT</h2>
+      </div>
+      <div className="space-y-6">
           <div className="mb-4">
             <label className="block mb-2">NFT Name *</label>
             <input
@@ -236,9 +198,6 @@ export default function NFTUploadPage() {
             </button>
           </div>
         </div>
-      </div>
-
-      {isSetSideBar && <SideBar setSidebar={setIsSetSideBar} />}
     </div>
   );
 }

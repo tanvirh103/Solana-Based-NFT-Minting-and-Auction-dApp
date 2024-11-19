@@ -66,57 +66,24 @@ export default function AuctionCreationPage() {
     setShowAuctionModal(true);
   };
   return (
-    <div className="max-w-1400px lg:max-w-[1400px] 2xl:max-w-[1560px] md:max-w-[1200px] sm:max-w-[1020px] mt-6 mx-auto px-4 2xl:px-12 lg:px-8 pb-8">
+    <div className="max-w-1400px lg:max-w-[1400px] 2xl:max-w-[1560px] md:max-w-[1200px] sm:max-w-[1020px] mt-2 mx-auto px-4 2xl:px-12 lg:px-8 pb-4">
       <div className="flex justify-between">
         <div className="flex justify-start">
           <h2 className="text-[#ffffff] text-[32px] font-[700] mb-6">
-            Your NFT
+            Your NFTs
           </h2>
-        </div>
-        <div
-          onClick={() => {
-            setIsSetSideBar(true);
-          }}
-          className="flex justify-end cursor-pointer"
-        >
-          <svg
-            className=""
-            width="30"
-            height="30"
-            viewBox="0 0 30 30"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M3.75 8.75H18.75"
-              stroke="#FFFFFF"
-              strokeWidth="2.5"
-              strokeLinecap="round"
-            ></path>
-            <path
-              d="M3.75 15H26.25"
-              stroke="#FFFFFF"
-              strokeWidth="2.5"
-              strokeLinecap="round"
-            ></path>
-            <path
-              d="M3.75 21.25H15"
-              stroke="#FFFFFF"
-              strokeWidth="2.5"
-              strokeLinecap="round"
-            ></path>
-          </svg>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-6">
         {nftData.map((nft) => (
-          <div key={nft.id} className="bg-[#1f2937] rounded-[8px] p-4 relative">
-            <div className="relative w-full h-[300px]">
+          <div key={nft.id} className="bg-[#1f2937] h-[400px] rounded-[8px] p-3  relative">
+            <div className="relative">
               <Image
                 src={nft.image}
                 alt={nft.title}
-                layout="fill"
+                width={360}
+                height={360}
                 objectFit="cover"
                 className="rounded-lg"
               />
@@ -127,7 +94,7 @@ export default function AuctionCreationPage() {
                 onClick={() => {
                   handleAddToAuction(nft);
                 }}
-                className="absolute bottom-2 left-1/2 transform -translate-x-1/2 bg-white text-black rounded-full px-4 py-1 text-[12px] font-[600] hover:bg-gray-200"
+                className="absolute bottom-2 left-1/2 transform -translate-x-1/2 bg-[#ffffff] text-[#000000] rounded-full px-4 py-1 text-[12px] font-[600] hover:bg-gray-200"
               >
                 Add to Auction
               </button>

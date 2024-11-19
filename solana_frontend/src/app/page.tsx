@@ -6,7 +6,7 @@ import RecentCreated from "./Component/RecentCreated";
 export default function Home() {
   return (
     <main className="h-full">
-      <Navbar/>
+      
       <section id="Home">
       <Index/>
       </section>

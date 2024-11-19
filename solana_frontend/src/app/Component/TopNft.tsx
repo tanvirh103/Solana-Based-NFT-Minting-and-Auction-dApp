@@ -31,8 +31,8 @@ export default function TopNFTs() {
                 {nft.id}
               </span>
             </div>
-            <p className="text-white text-sm font-medium text-center">{nft.name}</p>
-            <p className="text-gray-400 text-xs font-medium text-center">Ξ {nft.price}</p>
+            <p className="text-[#ffffff] text-[14px] font-[500] text-center">{nft.name}</p>
+            <p className="text-gray-400 text-[12px] font-[500] text-center">Ξ {nft.price}</p>
           </div>
         ))}
       </div>

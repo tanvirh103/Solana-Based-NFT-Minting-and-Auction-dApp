@@ -5,7 +5,6 @@ const AuctionModal = ({ isOpen, nftDetails }: any) => {
   const [startingPrice, setStartingPrice] = useState<number | undefined>();
   const [auctionDuration, setAuctionDuration] = useState<number | undefined>();
   const modalRef = useRef<HTMLDivElement>(null);
-  console.log(nftDetails);
   const handleAuctionSubmission = () => {
     console.log({
       startingPrice,
