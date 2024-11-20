@@ -3,6 +3,12 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
+import axios from "axios";
+import { useWallet } from "@solana/wallet-adapter-react";
+
+
+const PINATA_API_KEY = "c363942c86c48b89806b";
+const PINATA_API_SECRET = "0b134976fb9fba93081d59412555997f9e01fcbc1ad0e7cf810beddf147fd57a";
 
 export default function NFTUploadPage() {
   const [name, setName] = React.useState("");
@@ -12,25 +18,74 @@ export default function NFTUploadPage() {
   const [blockchain, setBlockchain] = React.useState("");
   const [attribute, setAttribute] = React.useState("");
   const [value, setValue] = React.useState("");
-  const [isSetSideBar, setIsSetSideBar] = React.useState(false);
   const [file, setFile] = React.useState<File | null>(null);
   const [preview, setPreview] = React.useState<string | null>(null);
   const [error, setError] = React.useState<string | null>(null);
+  const {publicKey}=useWallet()
 
-  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const uploadedFile = event.target.files?.[0];
-    if (uploadedFile) {
-      if (uploadedFile.type.startsWith("image/")) {
-        setFile(uploadedFile);
-        setPreview(URL.createObjectURL(uploadedFile));
-        setError(null);
-      } else {
-        setError("Only image files are allowed!");
-        setFile(null);
-        setPreview(null);
-      }
+  async function uploadToPinata(file: File) {
+    const url = `https://api.pinata.cloud/pinning/pinFileToIPFS`;
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const metadata = JSON.stringify({
+      name: file.name,
+      keyvalues: {
+        uploadedBy: "@deepChainLabs",
+        publickey:publicKey?.toBase58()
+      },
+    });
+    formData.append("pinataMetadata", metadata);
+
+    const pinataOptions = JSON.stringify({
+      cidVersion: 0,
+    });
+    formData.append("pinataOptions", pinataOptions);
+
+    try {
+      const response = await axios.post(url, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          pinata_api_key: PINATA_API_KEY,
+          pinata_secret_api_key: PINATA_API_SECRET,
+        },
+      });
+
+      const ipfsHash = response.data.IpfsHash;
+      return `https://gateway.pinata.cloud/ipfs/${ipfsHash}`;
+    } catch (error) {
+      console.error("Error uploading to Pinata:", error);
+      throw new Error("Failed to upload to Pinata");
     }
-  };
+  }
+
+  async function handleFileUpload(event: React.ChangeEvent<HTMLInputElement>) {
+    const files = event.target.files;
+    if (!files || files.length === 0) {
+      setError("No file selected!");
+      setPreview(null);
+      return;
+    }
+
+    const selectedFile = files[0];
+    if (selectedFile.type.startsWith("image/")) {
+      try {
+        const fileUrl = await uploadToPinata(selectedFile);
+        setPreview(URL.createObjectURL(selectedFile));
+        setFile(selectedFile);
+        setError(null);
+        console.log("File uploaded to Pinata:", fileUrl);
+      } catch (err) {
+        setError("Failed to upload the file.");
+        setPreview(null);
+        console.error(err);
+      }
+    } else {
+      setError("Only image files are allowed!");
+      setPreview(null);
+    }
+  }
 
   const handleSubmit = () => {
     console.log({
@@ -44,46 +99,50 @@ export default function NFTUploadPage() {
       value,
     });
   };
-
+  if(!publicKey){
+    return null;
+  }
   return (
     <div className="max-w-1560px lg:max-w-[1400px] 2xl:max-w-[1560px] md:max-w-[1200px] sm:max-w-[1020px] mx-auto px-4 2xl:px-12 lg:px-8">
       <div className="flex justify-start">
-            <h2 className="text-[45px] lg:text-[45px] md:text-[40px] sm:text-[35px] font-[700] mb-4">Create Your NFT</h2>
+        <h2 className="text-[45px] lg:text-[45px] md:text-[40px] sm:text-[35px] font-[700] mb-4">
+          Create Your NFT
+        </h2>
       </div>
       <div className="space-y-6">
-          <div className="mb-4">
-            <label className="block mb-2">NFT Name *</label>
-            <input
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="w-[90%] p-2 bg-[#454545] rounded text-[18px] text-[#ffffff] font-[400]"
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block mb-2">NFT Description *</label>
-            <textarea
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              className="w-[90%] p-2 bg-[#454545] rounded text-[18px] text-[#ffffff] font-[400]"
-            />
-          </div>
-          <div className="mb-4">
-            <label
-              htmlFor="file-upload"
-              className="block w-[90%] h-48 border-2 border-dashed border-gray-300 rounded-[12px] flex flex-col justify-center items-center cursor-pointer hover:border-[#867dbf] transition duration-300"
-            >
-              {preview ? (
-                <Image
-                   src={preview}
-                   alt="Creator Avatar"
-                   width={380}
-                   height={280}
-                   className="object-contain h-full w-full rounded-lg"
-                 />
-              ) : (
-                <div className="text-center">
-                  <div className="flex justify-center mb-4">
+        <div className="mb-4">
+          <label className="block mb-2">NFT Name *</label>
+          <input
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="w-[90%] p-2 bg-[#454545] rounded text-[18px] text-[#ffffff] font-[400]"
+          />
+        </div>
+        <div className="mb-4">
+          <label className="block mb-2">NFT Description *</label>
+          <textarea
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            className="w-[90%] p-2 bg-[#454545] rounded text-[18px] text-[#ffffff] font-[400]"
+          />
+        </div>
+        <div className="mb-4">
+          <label
+            htmlFor="file-upload"
+            className="block w-[90%] h-48 border-2 border-dashed border-gray-300 rounded-[12px] flex flex-col justify-center items-center cursor-pointer hover:border-[#867dbf] transition duration-300"
+          >
+            {preview ? (
+              <Image
+                src={preview}
+                alt="preview"
+                width={380}
+                height={280}
+                className="object-contain h-full w-full rounded-lg"
+              />
+            ) : (
+              <div className="text-center">
+                <div className="flex justify-center mb-4">
                     <svg
                       width="76"
                       height="76"
@@ -101,33 +160,30 @@ export default function NFTUploadPage() {
                       />
                     </svg>
                   </div>
-
-                  <p className="text-[20px]  text-[#ffffff] font-[400]">
-                    Drag & drop or click to upload an image
-                  </p>
-                  <p className="text-sm">
-                    Only .jpg, .jpeg, .png files are allowed
-                  </p>
-                </div>
-              )}
-            </label>
-            <input
-              id="file-upload"
-              type="file"
-              accept="image/*"
-              onChange={handleFileUpload}
-              className="hidden"
-            />
-            {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
-            {file && !error && (
-              <div className="mt-4">
-                <p className="text-sm text-gray-600">
-                  Uploaded: <span className="font-medium">{file.name}</span>
+                <p className="text-[20px] text-[#ffffff] font-[400]">
+                  Drag & drop or click to upload an image
                 </p>
+                <p className="text-sm">Only .jpg, .jpeg, .png files are allowed</p>
               </div>
             )}
-          </div>
-          <div className="grid grid-cols-2 gap-4">
+          </label>
+          <input
+            id="file-upload"
+            type="file"
+            accept="image/*"
+            onChange={handleFileUpload}
+            className="hidden"
+          />
+          {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
+          {file && !error && (
+            <div className="mt-4">
+              <p className="text-sm text-gray-600">
+                Uploaded: <span className="font-medium">{file.name}</span>
+              </p>
+            </div>
+          )}
+        </div>
+        <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="block mb-2">Symbol</label>
               <input
@@ -197,7 +253,7 @@ export default function NFTUploadPage() {
               Create NFT
             </button>
           </div>
-        </div>
+      </div>
     </div>
   );
 }
